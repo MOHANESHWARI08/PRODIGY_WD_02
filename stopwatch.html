@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch using javascript</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&display=swap');
+        body{
+            background: #edeaff;
+            font-family: 'Courier Prime', monospace;
+        }
+        .stopWatch{
+            width: 90%;
+            max-width: 600px;
+            background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(background.png);
+            background-size: cover;
+            background-position:center;
+            text-align: center;
+            padding: 40px 0;
+            color: #fff;
+            margin: 200px auto 0;
+            box-shadow: 0 10px 10px rgba(0,0,0,0.8);
+        }
+        .stopWatch h1{
+            margin-top: 60px;
+            font-size: 64px;
+            font-weight: 300px;
+        }
+        .buttons{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .buttons img{
+            width: 50px;
+            margin: 0 20px;
+            cursor: pointer;
+        }
+        .buttons img:nth-child(2){
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopWatch">
+        <h1 id="displayTime">00:00:00</h1>
+        <div class="buttons">
+            <img src="stop.png" alt="stopWatch" onclick="watchStop()">
+            <img src="start.png" alt="startWatch" onclick="watchStart()">
+            <img src="reset.png" alt="resetWatch" onclick="watchReset()">
+        </div>
+    </div>
+    <script>
+        let[seconds,mintues,hours]=[0,0,0];
+        let displayTime=document.getElementById("displayTime");
+        let timer=null;
+
+        function stopWatch(){
+            seconds++;
+            if(seconds==60){
+                seconds=0;
+                mintues++;
+                if(mintues==60){
+                    mintues=0;
+                    hours++;
+                }
+            }
+            let h=hours<10?"0"+hours:hours;
+            let m=mintues<10?"0"+mintues:mintues;
+            let s=seconds<10?"0"+seconds:seconds;
+
+            displayTime.innerHTML=h+":"+m+":"+s;
+        }
+        function watchStart(){
+            if(timer!==null){
+                clearInterval(timer);
+            }
+            timer=setInterval(stopWatch,1000);
+        }
+        function watchStop(){
+            clearInterval(timer);
+        }
+        function watchReset(){
+            clearInterval(timer);
+            [seconds,mintues,hours]=[0,0,0];
+            displayTime.innerHTML="00:00:00";
+        }
+    </script>
+</body>
+</html>
